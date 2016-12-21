@@ -7,26 +7,47 @@ int GCD(long int a , long int b){
      a = b%a; 
      b = c;
   }
-  cout<<b<<"\n";
+  //cout<<b<<"\n";
   if (b>1){
   	return 1;
   }else{
   	return 0;
   }
 }
+long int important_Function(long int key, long int n , long int * rooms){
+  long int num=0 ,i=0;
+  for(i=key+1;i<n;i++){
+        	if(rooms[i] == 1){
+          		continue;
+          	}
+          	if(rooms[i]>=rooms[key]){
+          	  if(GCD(rooms[i] , rooms[key])){
+                num++;
+                key = i;
+          	  }
+            }else{
+            	if (GCD(rooms[key] , rooms[i])){
+            		num++;
+            		key = i;
+              }
+            }
+          }
+
+  return num;
+}
 int main(int argc, char const *argv[])
 {
 	int t ; 
 	cin>>t;
 	while(t>0){
-        long int n,i=0,k=0,key=0,j=0;
+        long int n,i=0,k=0,key=0,imp=0,impNum;
          cin>>n;
          long int rooms[n];
           for(i=0;i<n;i++){
           	cin>>rooms[i];
           }
           //
-          for(i=0;i<n-1;i++){
+        /*  for(i=0;i<n-1;i++){
           	if(rooms[i] == 1){
           		continue;
           	}
@@ -39,7 +60,7 @@ int main(int argc, char const *argv[])
                     j++;
               }
             }
-          }
+          }*/
           //
           for(i=0;i<n-1;i++){
           	if(rooms[i] == 1){
@@ -47,19 +68,26 @@ int main(int argc, char const *argv[])
           	}
           	if(rooms[i]>=rooms[i+1]){
           	  if(GCD(rooms[i] , rooms[i+1])){
-                k++;k++;
                 key = i+1;
-                break;
+                     
+                 impNum =important_Function( key, n , rooms);
+                if(impNum >= imp){
+                     imp = impNum;
+                   } 
           	  }
             }else{
             	if (GCD(rooms[i+1] , rooms[i])){
-            		k++;k++;
+            		
             		key = i+1;
-            		break;
+                         
+                        impNum =important_Function( key, n , rooms);
+                     if(impNum >= imp){
+                     imp = impNum;
               }
             }
           }
-        for(i=key+1;i<n;i++){
+         }
+        /*for(i=key+1;i<n;i++){
         	if(rooms[i] == 1){
           		continue;
           	}
@@ -74,14 +102,9 @@ int main(int argc, char const *argv[])
             		key = i;
               }
             }
-
-          }
-          if(k>=j){
-          cout<<k<<"\n";
-          }else{
-          	cout<<j<<"\n";
-          }
+          }*/
+     cout<<imp+2<<"\n";
      t--;
-	}
+      }
 	return 0;
 }
